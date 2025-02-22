@@ -96,7 +96,7 @@ border-radius: 10px;
 
     }
     .showboxd{
-      
+       width:100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -429,7 +429,7 @@ background-color:white;
         videolist.classList.add("displaynone")
         console.log("button is cclick video list button")
         loading.classList.remove("displaynone")
-           await fetch("http://localhost:3200/videos",{
+           await fetch("https://tiktok-apr4.onrender.com/videos",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -461,7 +461,7 @@ background-color:white;
                 console.log(allcommentsid)
                 loading.classList.remove("displaynone")
                 let div;
-                await fetch("http://localhost:3200/comment",{
+                await fetch("https://tiktok-apr4.onrender.com/comment",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -497,7 +497,7 @@ background-color:white;
 
          let inputval = input.value;
          username = inputval;
-         await  fetch("http://localhost:3200/data", {
+         await  fetch("https://tiktok-apr4.onrender.com/data", {
                   method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
