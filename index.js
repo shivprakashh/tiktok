@@ -11,7 +11,7 @@ const bodyparser = require("body-parser")
 const { TextDecoder } = require('util');
 const prettier = require("prettier");
 const fs = require("fs");
-require("dotenv").config();
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
