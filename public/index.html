@@ -82,7 +82,7 @@ border-radius: 10px;
         top:0px ;
         left:0px;
        box-sizing: border-box;
-        width:100%;
+        width:100vw;
         min-height:100%;
         max-height: auto;
         overflow: scroll;
@@ -96,7 +96,8 @@ border-radius: 10px;
 
     }
     .showboxd{
-      
+      width:100%;
+    
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -177,7 +178,7 @@ border-radius: 10px;
         100%{transform: translateX(0px);}
     }
     .button-list{
-        width:800px;
+        width:100%;
         height:400px;
     box-sizing: border-box;
         
@@ -380,7 +381,7 @@ background-color:white;
 <body>
     <h1 class="top">Wellcome to my page Dear Users...</h1>
      <div class="head">
-        <p>A simple page, need to add more features but creator is Dancing alone.....</p>
+        <p>A simple page, need to add more features but the creator hands is tired!.....</p>
         <h4>Type username with @ and click search button.</h4> 
     </div>
     <img class="img-style" src="https://wallpapers.com/images/hd/white-pattern-background-309o7rbl649alir6.jpg">
@@ -429,7 +430,7 @@ background-color:white;
         videolist.classList.add("displaynone")
         console.log("button is cclick video list button")
         loading.classList.remove("displaynone")
-           await fetch("http://localhost:3200/videos",{
+           await fetch("https://tiktok-apr4.onrender.com/videos",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -461,7 +462,7 @@ background-color:white;
                 console.log(allcommentsid)
                 loading.classList.remove("displaynone")
                 let div;
-                await fetch("http://localhost:3200/comment",{
+                await fetch("https://tiktok-apr4.onrender.com/comment",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -497,7 +498,7 @@ background-color:white;
 
          let inputval = input.value;
          username = inputval;
-         await  fetch("http://localhost:3200/data", {
+         await  fetch("https://tiktok-apr4.onrender.com/data", {
                   method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const chrome = require("chrome")
 const PORT = process.env.PORT || 4600;
 const axios = require("axios");
 const path = require("path");
@@ -11,7 +12,7 @@ const bodyparser = require("body-parser")
 const { TextDecoder } = require('util');
 const prettier = require("prettier");
 const fs = require("fs");
-require("dotenv").config();
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -176,7 +177,7 @@ async function userinfo(value){
 async function a(user) {
   let images,vid;
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({  executablePath: chrome.path,headless: true });
     const p = await browser.newPage();
 
     // Set viewport size
