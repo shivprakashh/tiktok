@@ -429,7 +429,7 @@ background-color:white;
         videolist.classList.add("displaynone")
         console.log("button is cclick video list button")
         loading.classList.remove("displaynone")
-           await fetch("https://tiktok-apr4.onrender.com/videos",{
+           await fetch("https://shivtik.onrender.com/videos",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -461,7 +461,7 @@ background-color:white;
                 console.log(allcommentsid)
                 loading.classList.remove("displaynone")
                 let div;
-                await fetch("https://tiktok-apr4.onrender.com/comment",{
+                await fetch("https://shivtik.onrender.com/comment",{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -497,7 +497,7 @@ background-color:white;
 
          let inputval = input.value;
          username = inputval;
-         await  fetch("https://tiktok-apr4.onrender.com/data", {
+         await  fetch("https://shivtik.onrender.com/data", {
                   method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
