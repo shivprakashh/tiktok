@@ -203,10 +203,10 @@ async function a(user) {
 
     // Wait for the element to be available in the DOM
 
-    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true });
+    await p.waitForSelector('.css-gamknx-DivVideoFeedV2 .ecyq5ls0', { visible: true });
     // Select the element
   
-    const classname = await p.$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
+    const classname = await p.$('css-gamknx-DivVideoFeedV2 .ecyq5ls0');
 
     if (classname) {
       // Get the HTML content of the element
