@@ -17,7 +17,14 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     xdg-utils \
+    curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Google Chrome (for Puppeteer to use)
+RUN curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o google-chrome-stable_current_amd64.deb \
+    && dpkg -i google-chrome-stable_current_amd64.deb \
+    && apt-get -f install -y \
+    && rm google-chrome-stable_current_amd64.deb
 
 # Set Puppeteer environment variables
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
