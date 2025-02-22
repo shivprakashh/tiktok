@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin:0px;
+        padding:0px;
+    }
+    html,body{
+        width:100%;
+        height:100%;
+    }
+ body{
+   background-color: white;
+   display: flex;
+
+   
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+  
+    .box{
+      
+      
+        width:600px;
+        height:100px;
+       
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+      
+       
+           padding:10px;
+       
+        /* From https://css.glass */
+
+border-radius: 10px;
+
+
+    }
+   
+   
+    .search{
+        padding:5px 10px;
+        border: none;
+
+        font-size: 15px;
+        letter-spacing: 2px;
+        width:100%;
+        box-sizing: border-box;
+        height:50px;
+        box-shadow: 0px 0px 4px 1px rgb(215, 214, 214);
+        
+        
+
+    }
+    .btn{
+        
+        padding:4px 25px;
+        height:50px;
+        border:none;
+        background-color: black;
+        color:white;
+        box-shadow: 0px 0px 4px 1px rgb(215, 214, 214);
+
+    }
+    .btn:hover{
+        background-color: blue;
+        color:white;
+        border:none;
+        cursor: pointer;
+    }
+    .showbox{
+        position: absolute;
+        top:0px ;
+        left:0px;
+       box-sizing: border-box;
+        width:100%;
+        min-height:100%;
+        max-height: auto;
+        overflow: scroll;
+        animation: showbox 0.1s ease-in;
+        display: none;
+       
+        z-index: 2;
+        background-color: white;
+
+        padding:5px 0px;
+
+    }
+    .showboxd{
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+
+    }
+    .card{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding:20px;
+        gap:20px;
+    }
+    @keyframes showbox {
+        0%{transform: scale(0);}
+        100%{transform: scale(1);}
+    }
+    .logo1{
+        width:400px;
+        height:400px;
+        position: absolute;
+        top:100px;
+        left:20px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 5px 1px black;
+        z-index: 0;
+    }
+    .style{
+        position: absolute;
+        width:1px;
+        height:1px;
+        top:400px;
+        z-index: -1;
+        box-shadow: 0px 0px 1000px 250px rgb(253, 217, 154);;
+    }
+    
+    .card{
+        padding:0px;
+   
+        border-radius: 12px;
+        border:1px solid rgb(203, 203, 203);
+        background-color: rgb(192, 240, 218);
+    }
+    .cover{
+        width:200px;
+        height:300px;
+        object-fit: cover;
+    }
+    .head{
+       
+     position: relative;
+     top:-100px;
+     left:100px;
+    font-weight:10;
+     font-size: large;
+     
+     animation:top 8s infinite ease-in;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        color:rgb(0, 0, 0);
+        
+      
+    }
+    .top{
+        position: relative;
+        top:-200px;
+        color:black;
+       
+        display: inline-block;
+        
+    }
+    @keyframes top {
+        0%{transform: translateX(0px);}
+        50%{transform: translateX(30px);}
+        70%{transform: translateX(0px);}
+        100%{transform: translateX(0px);}
+    }
+    .button-list{
+        width:800px;
+        height:400px;
+    box-sizing: border-box;
+        
+        margin:0px;
+      
+    }
+    .profile-data{
+        width:100%;
+        height:100%;
+        margin:0px;
+        display: flex;
+        background: rgb(236,247,133);
+background: radial-gradient(circle, white 0%, rgb(247, 247, 230) 48%, rgba(255,255,255,1) 100%); 
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap:10px;
+        
+
+    }
+    .profile-img{
+        width:200px;
+        height:200px;
+        border-radius: 50%;
+    }
+    .showbox-nav{
+        width:100%;
+        padding:3px;
+        height:50px;
+       background-color: white;
+       border-bottom: 1px solid rgba(0, 0, 0, 0.279);
+        backdrop-filter: blur(29px);
+        position: fixed;
+        top:0px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: row;
+    }
+    .showbox-nav-but{
+      background-color: white;
+      color:black;
+      padding:5px 14px;
+    
+      
+      margin-right: 30px;
+      cursor: pointer;
+     
+
+    }
+    .showbox-nav-but:hover{
+      border-bottom: 3px solid blue;
+    }
+    .img-style{
+        width:40%;
+        height:100%;
+        object-fit: cover;
+        position: fixed;
+        top:0px;
+        right:0px;
+        z-index: -1;
+        opacity: 0.2;
+        box-shadow: inset 10px 0px 14px 1px rgb(255, 255, 255);
+    }
+    @media (max-width:600px) {
+        .head{
+            font-size: 15px;
+           width:70%;
+            left:-10px;
+        }
+        .top{
+            font-size: 21px;
+        }
+        .box{
+            width:95%;
+        }
+    }
+    .video-con{
+        background-color: white;
+        box-shadow: 0px 0px 4px 1px rgb(222, 221, 221);
+        width:300px;
+        height:auto;
+        margin:10px;
+        padding:3px 5px;
+        display: flex;
+        flex-direction: column;
+    }
+    .video-img{
+        width:140px;
+        height:auto;
+
+    }
+    .video-text{
+        font-size: 16px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+   .showboxchild{
+    width:100%;
+    box-sizing: border-box;
+    padding:10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+height:auto;
+
+background-color:white;
+   justify-content: space-around;
+    margin:0px;
+    margin-top: 100px;
+
+   }
+   .displaynone{
+    display: none !important;
+   }
+   .loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100px;
+    height:100px;
+    background-color: white;
+    position: fixed;
+  
+    top:300px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 9px 1px rgb(154, 152, 152);
+   }
+ 
+   .footer{
+    width:400px;
+    gap:5px;
+    height:auto;
+    padding:0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom:17px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+   }
+   .logo{
+    width:50px ;
+    height:50px;
+    border-radius: 50%;
+
+   }
+   .l1{
+    width:20px ;
+    height:20px;
+    background-color: red;
+    border-radius: 50%;
+    animation:red 1s infinite ease-in-out;
+   }
+   .l2{
+    width:20px ;
+    height:20px;
+    background-color: rgb(22, 165, 222);
+    border-radius: 50%;
+    animation: sky 1s infinite ease-in-out;
+   }
+   @keyframes red {
+    0%{transform: translateX(0px);opacity: 1;}
+   50%{transform: translateX(16px) scale(0.8); opacity: 1;}
+    100%{transform: translateX(0px) scale(1);opacity: 1;}
+   }
+   @keyframes sky {
+    0%{transform: translateX(0px);opacity: 1;}
+   50%{transform: translateX(-16px); opacity: 0.5;}
+    100%{transform: translateX(0px);opacity: 1;}
+   }
+   .left-img{
+    width:150px;
+    height:100vh;
+    opacity: 0.4;
+    object-fit: cover;
+    position: fixed;
+    top:0px;
+    left:0px;
+    z-index: -1;
+   }
+   .displayon{
+    display: flex;
+   }
+   .comment-text{
+    font-size: 18px;
+    margin-left: 20px;
+    margin-bottom:10px;
+   }
+   #comentlist{
+    animation: commentbut 1s infinite ease-in-out;
+   }
+   @keyframes commentbut {
+    0%{background-color: rgb(217, 255, 217); color:rgb(0, 0, 0)}
+    50%{background-color: rgb(13, 0, 128); color:white}
+
+    100%{background-color: rgb(229, 255, 0); color:rgb(0, 0, 0)}
+   }
+</style>
+<body>
+    <h1 class="top">Wellcome to my page Dear Users...</h1>
+     <div class="head">
+        <p>A simple page, need to add more features but creator is Dancing alone.....</p>
+        <h4>Type username with @ and click search button.</h4> 
+    </div>
+    <img class="img-style" src="https://wallpapers.com/images/hd/white-pattern-background-309o7rbl649alir6.jpg">
+    <div class="style"></div>
+    <img class="left-img" src="https://th.bing.com/th/id/R.8612fc927f83a64ee0fe1926f24f50c9?rik=K4xAG5BgI7vbiQ&pid=ImgRaw&r=0">
+    <div class="box">
+        <input class="search" type="text" placeholder="search with username">
+        <button class="btn" >search</button>
+
+    </div>
+    <div class="footer">
+        <img class="logo" src="https://th.bing.com/th/id/OIP.VV4I6aCzLV2vXjyGudPTQgHaHa?rs=1&pid=ImgDetMain">
+        <p class="logo-text">Only For Tik Tok...</p>
+    </div>
+    <div class="showbox">
+        <div class="showbox-nav">
+            <p id="videolist" class="showbox-nav-but">Videos</p>
+            <p id="comentlist" class="showbox-nav-but">Comments</p>
+            <p class="showbox-nav-but" id="home">Home</p>
+        </div>
+        <div class="button-list"></div>
+        <div class="showboxchild"></div>
+        <div class="loading"><div class="l1"></div><div class="l2"></div></div>
+    
+    </div>
+    <script>
+        const videolist = document.getElementById("videolist");
+        const comentlist = document.getElementById("comentlist");
+        const btn = document.getElementsByClassName("btn")[0];
+        const showbox = document.getElementsByClassName("showbox")[0];
+        const input = document.getElementsByClassName("search")[0];
+        const loading = document.getElementsByClassName("loading")[0];
+        const home = document.getElementById("home");
+        const showboxChild = document.getElementsByClassName("showboxchild")[0];
+        const buttonlist = document.getElementsByClassName("button-list")[0];
+       //video list
+       let username;
+       let allcommentsid;
+       home.addEventListener("click",()=>{
+       buttonlist.innerHTML = "";
+       showboxChild.innerHTML = "";
+       location.reload()
+        showbox.classList.add("displaynone")
+       })
+       videolist.addEventListener("click",async ()=>{
+        videolist.classList.add("displaynone")
+        console.log("button is cclick video list button")
+        loading.classList.remove("displaynone")
+           await fetch("http://localhost:3200/videos",{
+            method: "POST",
+                  headers: {
+                 'Content-Type': 'application/json' // We are sending JSON data
+                  },
+                  body: JSON.stringify({ user: username })
+           }).then(async (d)=>{
+            loading.classList.add("displaynone")
+            comentlist.classList.remove("displaynone")
+            const data = await d.json();
+            console.log(data,"this is video api" )
+            buttonlist.classList.add("displaynone")
+             allcommentsid = data.vid;
+             const div = document.createElement("div")
+            for(let value of data.images){
+                console.log("looping",value)
+                let videocon = document.createElement("div");
+                videocon.classList.add("video-con")
+                let ht = `<img class="video-img" src=${value.src}>
+                <p class="video-text">${value.alt}</p>
+                `;
+                videocon.innerHTML = ht;
+    showboxChild.appendChild(videocon)
+            }
+         
+           })
+       })
+       //comments api
+            comentlist.addEventListener("click",async ()=>{
+                console.log(allcommentsid)
+                loading.classList.remove("displaynone")
+                let div;
+                await fetch("http://localhost:3200/comment",{
+            method: "POST",
+                  headers: {
+                 'Content-Type': 'application/json' // We are sending JSON data
+                  },
+                  body: JSON.stringify({vid:allcommentsid}) 
+           }).then(async(d)=>{
+            const data = await d.json()
+          
+            loading.classList.add("displaynone")
+             div = document.createElement("div")
+            console.log(data,"this is all comments")
+            for(let i = 0;i<data.length;i++){
+                console.log("entering into for ooop")
+                for(let a = 0;a<data[i].comments.length;a++){
+                    
+                    let text = document.createElement("p");
+            text.classList.add("comment-text");
+            text.innerHTML = ` ${data[i].comments[a].share_info.desc}`;
+              div.appendChild(text)
+   
+                }
+            }
+            showboxChild.innerHTML="";
+            showboxChild.appendChild(div)
+           })
+            })
+       //comments api ended
+       //
+        btn.addEventListener("click",async ()=>{
+            comentlist.classList.add("displaynone")
+            showbox.classList.remove("displaynone")
+         showbox.classList.add("showboxd")
+
+         let inputval = input.value;
+         username = inputval;
+         await  fetch("http://localhost:3200/data", {
+                  method: "POST",
+                  headers: {
+                 'Content-Type': 'application/json' // We are sending JSON data
+                  },
+                  body: JSON.stringify({ user: inputval }) // Sending the input value as a JSON payload
+})
+.then(async (response) =>
+
+  await response.json()  ).then((d)=>{
+    console.log(d,"this is api daaa")
+    
+    const div = document.createElement("div");
+    div.classList.add("profile-data");
+    let text = 
+    `
+    <img class="profile-img" src=${d.image} />
+    <p class="profile-text">Username: ${d.uniqueId}</p>
+     <p class="profile-text">Nickname: ${d.nickname}</p>
+      <p class="profile-text">Location: ${d.region}</p>
+    `;
+    loading.classList.add("displaynone")
+    div.innerHTML=text;
+    buttonlist.appendChild(div)
+  
+  })
+
+.catch((error) => {
+    const div = document.createElement("div");
+    div.classList.add("profile-data");
+    let text = 
+    `
+       <h1>Errors please try again later</h1>
+    `;
+    loading.classList.add("displaynone")
+    div.innerHTML=text;
+    buttonlist.appendChild(div)
+    console.error("Error:", error); // Handle any errors that occur
+});
+       
+        })
+    </script>
+</body>
+</html>
