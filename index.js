@@ -12,7 +12,7 @@ const bodyparser = require("body-parser")
 const { TextDecoder } = require('util');
 const prettier = require("prettier");
 const fs = require("fs");
-
+require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -181,8 +181,11 @@ async function a(user) {
       // Launch Puppeteer with headless and sandbox flags
       const browser = await puppeteer.launch({
         headless: true,  // Run in headless mode
+        
         args: [
           '--no-sandbox',
+          "--single-process",
+          "--no-zygote",
           '--disable-setuid-sandbox', // Render environment requires these flags
         ]  // Path to the installed Chrome
       });
