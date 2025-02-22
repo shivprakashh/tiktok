@@ -1,6 +1,9 @@
 # Use the official Puppeteer base image
 FROM ghcr.io/puppeteer/puppeteer:24.2.1
 
+# Switch to root user to allow apt-get installation
+USER root
+
 # Install system dependencies required for Chromium
 RUN apt-get update && apt-get install -y \
     wget \
