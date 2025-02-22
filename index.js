@@ -196,17 +196,19 @@ async function a(user) {
     await p.setViewport({ width: 1000, height: 500 });
 
     // Launch URL
-    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: 90000 });
 
     // Scroll 3 times and wait for content to load
-  
+    await p.waitForSelector('img', { visible: true });
+    await p.waitForSelector('a', { visible: true });
+    
 
     // Wait for the element to be available in the DOM
 
-    await p.waitForSelector('.css-gamknx-DivVideoFeedV2.ecyq5ls0', { visible: true });
+    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true,timeout:90000 });
     // Select the element
   
-    const classname = await p.$('css-gamknx-DivVideoFeedV2.ecyq5ls0');
+    const classname = await p.$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
 
     if (classname) {
       // Get the HTML content of the element
