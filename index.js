@@ -198,10 +198,7 @@ async function a(user) {
     // Launch URL
     await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: 90000 });
 
-    // Scroll 3 times and wait for content to load
-    await p.waitForSelector('img', { visible: true });
-    await p.waitForSelector('a', { visible: true });
-    
+    // Scroll 3 times and wait for content to 
 
     // Wait for the element to be available in the DOM
 
