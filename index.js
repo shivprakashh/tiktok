@@ -198,7 +198,7 @@ async function a(user) {
     await p.setViewport({ width: 1000, height: 500 });
 
     // Launch URL
-    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", waitUntil: 'networkidle0'});
 
     // Scroll 3 times and wait for content to 
     if (browser.isConnected()) {
@@ -209,7 +209,7 @@ async function a(user) {
   
     // Wait for the element to be available in the DOM
     try {
-      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 120000 });
+      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, waitUntil: 'networkidle0' });
       console.log("Element found");
   } catch (error) {
       console.error("Error: Selector not found", error);
