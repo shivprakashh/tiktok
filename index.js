@@ -222,7 +222,7 @@ async function a(user) {
     }
 
     // Wait for the class containing images and links to be available
-    await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 200000 });
+    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true, timeout: 200000 });
 
     // Scroll the page to load content if required
     for (let i = 0; i < 3; i++) {
@@ -231,7 +231,7 @@ async function a(user) {
     }
 
     // Extract the images and video links from the class
-    const elements = await p.$$('[class*="ThreeColumnContainer"]');
+    const elements = await p.$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
 
     for (let element of elements) {
       // Extract <img> tags (image URLs)
