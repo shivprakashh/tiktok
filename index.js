@@ -222,7 +222,7 @@ async function a(user) {
     }
 
     // Wait for the class containing images and links to be available
-    await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 10000 });
+    await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 200000 });
 
     // Scroll the page to load content if required
     for (let i = 0; i < 3; i++) {
