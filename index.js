@@ -192,7 +192,7 @@ async function userinfo(value){
   await page.setRequestInterception(true);
 
   // Listen to request events
-  page.on('request', (request) => {
+ await page.on('request', (request) => {
     // Filter for API URLs
     if (request.url().includes('api')) {
       let u = request.url();
