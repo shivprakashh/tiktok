@@ -15,6 +15,7 @@ const fs = require("fs");
 require("dotenv").config();
 const puppeteer = require('puppeteer-extra'); // Use puppeteer-extra
 const StealthPlugin = require('puppeteer-extra-plugin-stealth'); // Import stealth plugin
+const { executablePath } = require("puppeteer");
 
 puppeteer.use(StealthPlugin()); // Enable the stealth plugin
 
@@ -183,7 +184,7 @@ async function userinfo(value){
 
  async function a(user) {
   let items;
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true,args:["--disable-setuid-sandbox","--no-sandbox","--single-process","--no-zygote"],executablePath:"/usr/bin/google-chrome-stable" });
   const page = await browser.newPage();
   let apiurl = [];
 
