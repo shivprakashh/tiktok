@@ -68,11 +68,14 @@ app.post("/videos",async (req,resp)=>{
   console.log(req.body.user,"this is requrest form videos list api data");
   // Custom delay function using setTimeout
   const user = req.body.user;
-   const data = await a(user);
+  await a(user).then((result)=>{
+    console.log(result,"result");
+    resp.send(result)
+  })
    
-   console.log(data,"this is video api data")
+  
 
-  resp.send(data)
+
 
 })
 // video list api ended/
@@ -86,7 +89,7 @@ app.post("/comment",async (req,resp)=>{
   
   
   for(let i = 0;i<comments.length;i++){
-  let id = comments[i].split("/").pop();
+  let id = comments[i];
   
 
    
@@ -175,99 +178,79 @@ async function userinfo(value){
  
 
  //chrome extentionis for videos
- function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
 
-async function start() {
-  const browser = await puppeteer.launch({
-    headless: true, // Keep it headless for speed
-    executablePath: '/usr/bin/google-chrome-stable',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+
+
+ async function a(user) {
+  let items;
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  let apiurl = [];
+
+  // Enable request interception
+  await page.setRequestInterception(true);
+
+  // Listen to request events
+  page.on('request', (request) => {
+    // Filter for API URLs
+    if (request.url().includes('api')) {
+      let u = request.url();
+      apiurl.push(u);
+    }
+    request.continue(); // Continue with the request
   });
 
-  const p = await browser.newPage();
+  // Go to the page with a longer timeout
+  await page.goto(`https://www.tiktok.com/${user}`, { waitUntil: 'domcontentloaded', timeout: 90000 });
 
-  // Block unnecessary resources like images and stylesheets to speed things up
-  await p.setRequestInterception(true);
-  p.on('request', (request) => {
-    if (['image', 'font', 'stylesheet'].includes(request.resourceType())) {
-      request.abort();  // Block media-heavy content (like images and fonts)
-    } else {
-      request.continue();
-    }
-  });
+  // Wait for a few seconds (use custom delay)
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Wait for 5 seconds
 
-  return { browser, p };
-}
+  const targetUrl = 'https://www.tiktok.com/api/post/item_list/?';
 
-async function a(user) {
-  let images = [], vid = [];
-  let browser, p;
+  // Use Array.find to search for the target URL, no need to make it async
+  const Ur = apiurl.find(url => url.startsWith(targetUrl));
+  console.log(Ur, "this is url");
 
-  try {
-    // Launch Puppeteer and get page object
-    ({ browser, p } = await start());
+  await browser.close();
 
-    // Set viewport size (optional, but useful for mobile views)
-    await p.setViewport({ width: 1000, height: 500 });
+  // If we find the target URL, fetch data from it
+  if (Ur) {
+    await fetch(Ur, {
+      "headers": {
+        "accept": "*/*",
+        "accept-language": "en-US,en;q=0.9",
+        "priority": "u=1, i",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Microsoft Edge\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0",
+        "cookie": "passport_csrf_token=4a09200b475a26002108e703608d29b0; passport_csrf_token_default=4a09200b475a26002108e703608d29b0; multi_sids=7468289446259377170%3A12272f9d8ae3734943cfa6e68bea8b56; cmpl_token=AgQQAPOwF-RO0reaXwlMJB0r_dimSEVKP4o7YNkVKA; uid_tt=051a0fdc385d69e2f1cd02ebb21e5f3592ca09ae8af75d6a1b6eb30880751245; uid_tt_ss=051a0fdc385d69e2f1cd02ebb21e5f3592ca09ae8af75d6a1b6eb30880751245; sid_tt=12272f9d8ae3734943cfa6e68bea8b56; sessionid=12272f9d8ae3734943cfa6e68bea8b56; sessionid_ss=12272f9d8ae3734943cfa6e68bea8b56; store-idc=alisg; store-country-code=mm; store-country-code-src=uid; tt-target-idc=alisg; tt-target-idc-sign=gcRDlcSZ0UrC4EBr3f-mU3gfEnzbk0YboQg2lcizJRaMwKKr539tGNf4NtB6uEAmRDjtwtUFEK6BAqpr838qo_mEExZblf1_DWWGul5UTehfpCx--2BwDJe-FaQMTYog0a1TJlTH41joF0OY74hYeBMK3U4z3iUvdbQoXCH3AOWx7L6yjn2SCX34UsGEg0MXnCQLNi_7W1l7JVi3bvG9_F8Gi-JUorR3CnYeBnap8JuAKXsxXsiuexO2npqYrG5rEaeeUCVHnjEcxgMPYgevbFqXbLmKn3R5rLvtu-89aWTtO7e3qismKILL9xE-LoJYaXDer206-yTV0njJLLLbQQNoHE6FmLIF1tR9FdrpLijBT_Y2OVmmTPAeIPajhJ5htTPdtkXeT5duFmbTMInGABnMiGeP_Fght47iQp5E37VS7JfOoady5_goJ7DfCvgHMwz5Y7K10brrahXGLsvNOfmCmmxKGurH-za7AhE9NAW40Hd0_c1_lx6t4OCQ3szc; last_login_method=QRcode; tiktok_webapp_theme_source=auto; tiktok_webapp_theme=dark; delay_guest_mode_vid=5; odin_tt=fcd4b1a85a0086a89d061c6a6fd3589e21e5ccefe0e949513f688c7cd56531439db1571efdcb3018884206ca2fbac7c5dcab3f972f850c49cce9ef17c7c686d0d1840e791b55d3987cf6c7226a217e33; sid_guard=12272f9d8ae3734943cfa6e68bea8b56%7C1740193698%7C15551995%7CThu%2C+21-Aug-2025+03%3A08%3A13+GMT; sid_ucp_v1=1.0.0-KGQ4ZDI1NTcxNDliYWVhNGZhZjIwNzM2MjNiM2FlZmIyMmQ5N2M0MjUKGgiSiNug7LWs0mcQov_kvQYYsws4B0D0B0gEEAMaAm15IiAxMjI3MmY5ZDhhZTM3MzQ5NDNjZmE2ZTY4YmVhOGI1Ng; ssid_ucp_v1=1.0.0-KGQ4ZDI1NTcxNDliYWVhNGZhZjIwNzM2MjNiM2FlZmIyMmQ5N2M0MjUKGgiSiNug7LWs0mcQov_kvQYYsws4B0D0B0gEEAMaAm15IiAxMjI3MmY5ZDhhZTM3MzQ5NDNjZmE2ZTY4YmVhOGI1Ng; tt_csrf_token=VIjLU3CZ-on9L1QQ6NZlINxXpB2o57UiQOuo; tt_chain_token=fftlLijkS9tMiWedDBWbxA==; ak_bmsc=775A56198FC233E5467377B6C4CA11B0~000000000000000000000000000000~YAAQJmW/ymq0xBmVAQAAKPkgMhohXUwHGb0Yklotc+4VLsCrlgwbOjtjeCnD6tn8p1GQoT6PWPX9vGR8KFLDoE/vHKZ1zw+vlxHGz2MOqoeS0Da9UQ9K7Iy0Ce4yiqX2E429fXZnXb3PxrEDF2BKAnTsksSkJ1mS2c0DPp2mY2Jdp8gD97Ub6PyfU6/vEdiig2pqyQBDWeXZCu+09uDi/3eX2SHQu2NfhFZgEb9BFntNf6TvchVcAeulyJ17bt2/ELjmuTB5KIV4Xn0CtZKI9KzkMBVeMjyNBt/asmIsDcCIsZQK/wEjT+xbza7k5us81E0ZF5XeTMP7R/E+Gsm/kHuNwKINtJjtAt4geXI0bVXthuXXF/+JzlZOzxHtOkiS3oO3YuenCqg=; perf_feed_cache={%22expireTimestamp%22:1740474000000%2C%22itemIds%22:[%227465941645415042312%22%2C%227444154762896919825%22%2C%227471608150077050128%22]}; msToken=L66Hv3QU59puTsgLR2cDh__mok9SyE3zK1X-JJsV_JjrfZ68JnJNwkI1sv0t_fzB_M_waSfQB5nKTvPg1iBGwRBCvYIjSqYgqMuu9gsNquMWGGCasnj6XMHEOvMT6d9gwHRfB85cqOzdGw==; msToken=O439Y6piplNTT_5-j88MVyki09r7PFfGEYDCvZQxSI3MDN81e5tw4dTnNL2YPaQYB3SFC4-khyUjtY1nK7guribfhkUTt9nfM5CxSyPyVhTmRwAsyi4p93TpMf5exqLiaiU-a8ArYJbe_g==; bm_sv=C1EDAB8889C37E6AA653B18B5814CE23~YAAQL2W/ynUK6jCVAQAAm2IhMhqew7sIXoym8wyZJklenyxIlKq9qIBx9JUFNOvQ4QYRlIL2EFKGJNMIQgGdgELnKcl/MEiaOLPKrotI3N984iBVE2tnXB2U+wIv7o/Am4+/ClND3DgD5rBuZjM/k2nG8qwWN5Dxjk5IShcFApPU8+fIFA/hfkwjrPMY7MSTr+4KP8VLx43OIoNeUdFYv8v/E6vo88o66DTQuRNu3j07VrJlKsrV+erv/ocMWFmN~1; ttwid=1%7CBGoObAOASytAdSOXZ97MTcx37JsCfY1WjNZ4aAz95V4%7C1740302805%7C49af0fb38e08d2dd9650461d9e3a7141075294257a143dce804c25b915673060",
+        "Referer": "https://www.tiktok.com/@rubidawari",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+      },
+      "body": null,
+      "method": "GET"
+    }).then(async (d) => {
+      const dd = await d.json();
+      items = dd;
+      console.log("this is dd", dd);
+    });
 
-    // Launch URL and wait until the page content is loaded
-    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: 'networkidle2', timeout: 60000 });
-
-    // Check if the browser is still connected
-    if (browser.isConnected()) {
-      console.log('Browser is open and running');
-    } else {
-      console.log('Browser is closed');
-    }
-    const initialHTML = await p.evaluate(() => document.body.innerHTML);
-    console.log("Initial Page HTML:", initialHTML.substring(0, 2000)); // Log first 2000 characters to avoid overflow
-
-    // Wait for the class containing images and links to be available
-    await p.waitForFunction(
-      `document.querySelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2') !== null`
-    );
-    
-
-    // Scroll the page to load content if required
-    for (let i = 0; i < 1; i++) {
-      await p.evaluate(() => window.scrollBy(0, 1000)); // Scroll down by one viewport height
-      await delay(3000); // Wait for 3 seconds after scroll to let the content load
-    }
-
-    // Extract the images and video links from the class
-    const elements = await p.$$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
-
-    for (let element of elements) {
-      // Extract <img> tags (image URLs)
-      const imgLinks = await element.$$eval('img', imgs => {
-        return imgs.map(img => ({
-          src: img.src,  // Image source
-          alt: img.alt   // Image alt text
-        }));
-      });
-
-      // Extract <a> tags (video URLs)
-      const videoLinks = await element.$$eval('a', links => {
-        return links.map(a => a.href);
-      });
-
-      // Add the extracted data to arrays
-      images.push(...imgLinks);
-      vid.push(...videoLinks);
-    }
-
-    console.log("Images:", images);
-    console.log("Video Links:", vid);
-
-    await browser.close();
-  } catch (err) {
-    console.error("Error:", err);
+    return { items };
+  } else {
+    console.log("Target URL not found!");
+    return { items: [] };
   }
-
-  return { images, vid };
 }
+
+  
+
+
+
 
  // chrome extentions ended
 
