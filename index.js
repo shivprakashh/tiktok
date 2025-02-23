@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 4600;
 const axios = require("axios");
 const path = require("path");
-const puppeteer = require("puppeteer")
+
 const { json } = require("stream/consumers");
 const cors = require("cors");
 const cheerio = require("cheerio")
@@ -13,6 +13,11 @@ const { TextDecoder } = require('util');
 const prettier = require("prettier");
 const fs = require("fs");
 require("dotenv").config();
+const puppeteer = require('puppeteer-extra'); // Use puppeteer-extra
+const StealthPlugin = require('puppeteer-extra-plugin-stealth'); // Import stealth plugin
+
+puppeteer.use(StealthPlugin()); // Enable the stealth plugin
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -180,7 +185,7 @@ async function a(user) {
  
       // Launch Puppeteer with headless and sandbox flags
       const browser = await puppeteer.launch({
-        headless: true,  // Run in headless mode
+        headless: false,  // Run in headless mode
         
         args: [
           '--no-sandbox',
