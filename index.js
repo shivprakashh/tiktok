@@ -184,6 +184,8 @@ async function userinfo(value){
 
  async function a(user) {
   let items;
+ 
+puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({ headless: true,args:["--disable-setuid-sandbox","--no-sandbox","--single-process","--no-zygote"],executablePath:"/usr/bin/google-chrome-stable" });
   const page = await browser.newPage();
   let apiurl = [];
