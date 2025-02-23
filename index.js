@@ -199,13 +199,24 @@ async function a(user) {
     await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: 90000 });
 
     // Scroll 3 times and wait for content to 
-
+    if (browser.isConnected()) {
+      console.log("Browser is open and running");
+  } else {
+      console.log("Browser is closed");
+  }
+  
     // Wait for the element to be available in the DOM
+    try {
+      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 120000 });
+      console.log("Element found");
+  } catch (error) {
+      console.error("Error: Selector not found", error);
+  }
 
-    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true,timeout:90000 });
+   
     // Select the element
   
-    const classname = await p.$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
+    const classname = await p.$('[class*="ThreeColumnContainer"]');
 
     if (classname) {
       // Get the HTML content of the element
@@ -213,10 +224,10 @@ async function a(user) {
         // Scroll by one viewport height
         
         await p.evaluate(() => {
-          window.scrollBy(0, window.innerHeight);
+          window.scrollBy(0, 1000);
         });
         await p.waitForSelector('img', { visible: true })
-        await delay(2000);
+        await delay(3000);
         // Wait for 2 seconds after scroll to let the content load
         // Use custom delay function
       }
