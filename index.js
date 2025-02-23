@@ -220,7 +220,7 @@ async function a(user) {
     } else {
       console.log('Browser is closed');
     }
-    const initialHTML = await page.evaluate(() => document.body.innerHTML);
+    const initialHTML = await p.evaluate(() => document.body.innerHTML);
     console.log("Initial Page HTML:", initialHTML.substring(0, 2000)); // Log first 2000 characters to avoid overflow
 
     // Wait for the class containing images and links to be available
