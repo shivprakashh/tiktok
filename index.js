@@ -185,14 +185,11 @@ async function a(user) {
  
       // Launch Puppeteer with headless and sandbox flags
       const browser = await puppeteer.launch({
-        headless: false,  // Run in headless mode
-        
+        headless: true, // Or false for debugging
         args: [
-          '--no-sandbox',
-          "--single-process",
-          "--no-zygote",
-          '--disable-setuid-sandbox', // Render environment requires these flags
-        ]  // Path to the installed Chrome
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ] // Path to the installed Chrome
       });
     
     const p = await browser.newPage();
