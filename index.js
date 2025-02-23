@@ -181,91 +181,88 @@ async function userinfo(value){
 
 async function start() {
   const browser = await puppeteer.launch({
-    headless: true, // Or false for debugging
+    headless: true, // Keep it headless for speed
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
   const p = await browser.newPage();
+
+  // Block unnecessary resources like images and stylesheets to speed things up
+  await p.setRequestInterception(true);
+  p.on('request', (request) => {
+    if (['image', 'font', 'stylesheet'].includes(request.resourceType())) {
+      request.abort();  // Block media-heavy content (like images and fonts)
+    } else {
+      request.continue();
+    }
+  });
+
   return { browser, p };
 }
 
 async function a(user) {
-  let images, vid;
+  let images = [], vid = [];
   let browser, p;
 
   try {
     // Launch Puppeteer and get page object
     ({ browser, p } = await start());
-      // Launch Puppeteer with headless and sandbox flags
-     
 
-    // Set viewport size
+    // Set viewport size (optional, but useful for mobile views)
     await p.setViewport({ width: 1000, height: 500 });
 
-    // Launch URL
-    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: '230000'});
+    // Launch URL and wait until the page content is loaded
+    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: 'networkidle2', timeout: 60000 });
 
-    // Scroll 3 times and wait for content to 
+    // Check if the browser is still connected
     if (browser.isConnected()) {
-      console.log("Browser is open and running");
-  } else {
-      console.log("Browser is closed");
-  }
-  
-    // Wait for the element to be available in the DOM
-    try {
-      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout:"230000" });
-      console.log("Element found");
-  } catch (error) {
-      console.error("Error: Selector not found", error);
-  }
-
-   
-    // Select the element
-  
-    const classname = await p.$('[class*="ThreeColumnContainer"]');
-
-    if (classname) {
-      // Get the HTML content of the element
-      for (let i = 0; i < 1; i++) {
-        // Scroll by one viewport height
-        
-        await p.evaluate(() => {
-          window.scrollBy(0, 1000);
-        });
-        await p.waitForSelector('img', { visible: true ,timeout:"200000"})
-        await delay(3000);
-        // Wait for 2 seconds after scroll to let the content load
-        // Use custom delay function
-      }
-    
-      // Write the HTML content to a file
-   
-    
-        images = await classname.$$eval("img",imgs =>{
-          return imgs.map(img =>{
-            return{ src:img.src,alt:img.alt}
-          })
-        })
-      
-    
-       vid = await classname.$$eval("a",(d)=>{
-        return d.map(a => {
-          return a.href;
-        })
-      })
-     
-      console.log("saved!");
+      console.log('Browser is open and running');
     } else {
-      console.log("Element not found.");
+      console.log('Browser is closed');
     }
+
+    // Wait for the class containing images and links to be available
+    await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout: 10000 });
+
+    // Scroll the page to load content if required
+    for (let i = 0; i < 3; i++) {
+      await p.evaluate(() => window.scrollBy(0, 1000)); // Scroll down by one viewport height
+      await p.waitForTimeout(3000); // Wait for 3 seconds after scroll to let the content load
+    }
+
+    // Extract the images and video links from the class
+    const elements = await p.$$('[class*="ThreeColumnContainer"]');
+
+    for (let element of elements) {
+      // Extract <img> tags (image URLs)
+      const imgLinks = await element.$$eval('img', imgs => {
+        return imgs.map(img => ({
+          src: img.src,  // Image source
+          alt: img.alt   // Image alt text
+        }));
+      });
+
+      // Extract <a> tags (video URLs)
+      const videoLinks = await element.$$eval('a', links => {
+        return links.map(a => a.href);
+      });
+
+      // Add the extracted data to arrays
+      images.push(...imgLinks);
+      vid.push(...videoLinks);
+    }
+
+    console.log("Images:", images);
+    console.log("Video Links:", vid);
 
     await browser.close();
   } catch (err) {
     console.error("Error:", err);
   }
-  return {images,vid};
+
+  return { images, vid };
 }
+
  // chrome extentions ended
 
 // comment function
