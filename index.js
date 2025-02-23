@@ -225,7 +225,7 @@ async function a(user) {
     console.log("Initial Page HTML:", initialHTML.substring(0, 2000)); // Log first 2000 characters to avoid overflow
 
     // Wait for the class containing images and links to be available
-    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true})
+    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true,timeout:300000})
 
     // Scroll the page to load content if required
     for (let i = 0; i < 1; i++) {
