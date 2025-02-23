@@ -179,26 +179,31 @@ async function userinfo(value){
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
+async function start() {
+  const browser = await puppeteer.launch({
+    headless: true, // Or false for debugging
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
+
+  const p = await browser.newPage();
+  return { browser, p };
+}
+
 async function a(user) {
-  let images,vid;
+  let images, vid;
+  let browser, p;
+
   try {
- 
+    // Launch Puppeteer and get page object
+    ({ browser, p } = await start());
       // Launch Puppeteer with headless and sandbox flags
-      const browser = await puppeteer.launch({
-        headless: true, // Or false for debugging
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-        ] // Path to the installed Chrome
-      });
-    
-    const p = await browser.newPage();
+     
 
     // Set viewport size
     await p.setViewport({ width: 1000, height: 500 });
 
     // Launch URL
-    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", waitUntil: 'networkidle0'});
+    await p.goto(`https://www.tiktok.com/${user}`, { waitUntil: "domcontentloaded", timeout: '230000'});
 
     // Scroll 3 times and wait for content to 
     if (browser.isConnected()) {
@@ -209,7 +214,7 @@ async function a(user) {
   
     // Wait for the element to be available in the DOM
     try {
-      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, waitUntil: 'networkidle0' });
+      await p.waitForSelector('[class*="ThreeColumnContainer"]', { visible: true, timeout:"230000" });
       console.log("Element found");
   } catch (error) {
       console.error("Error: Selector not found", error);
@@ -228,7 +233,7 @@ async function a(user) {
         await p.evaluate(() => {
           window.scrollBy(0, 1000);
         });
-        await p.waitForSelector('img', { visible: true })
+        await p.waitForSelector('img', { visible: true ,timeout:"200000"})
         await delay(3000);
         // Wait for 2 seconds after scroll to let the content load
         // Use custom delay function
