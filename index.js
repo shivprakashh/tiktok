@@ -182,6 +182,7 @@ async function userinfo(value){
 async function start() {
   const browser = await puppeteer.launch({
     headless: true, // Keep it headless for speed
+    executablePath: '/usr/bin/google-chrome-stable',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
