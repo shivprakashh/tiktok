@@ -224,16 +224,16 @@ async function a(user) {
     console.log("Initial Page HTML:", initialHTML.substring(0, 2000)); // Log first 2000 characters to avoid overflow
 
     // Wait for the class containing images and links to be available
-    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true, timeout: 200000 });
+    await p.waitForSelector('.css-1qb12g8-DivThreeColumnContainer.eegew6e2', { visible: true})
 
     // Scroll the page to load content if required
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       await p.evaluate(() => window.scrollBy(0, 1000)); // Scroll down by one viewport height
-      await p.waitForTimeout(3000); // Wait for 3 seconds after scroll to let the content load
+      await delay(3000); // Wait for 3 seconds after scroll to let the content load
     }
 
     // Extract the images and video links from the class
-    const elements = await p.$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
+    const elements = await p.$$('.css-1qb12g8-DivThreeColumnContainer.eegew6e2');
 
     for (let element of elements) {
       // Extract <img> tags (image URLs)

@@ -417,6 +417,7 @@ background-color:white;
         const showboxChild = document.getElementsByClassName("showboxchild")[0];
         const buttonlist = document.getElementsByClassName("button-list")[0];
        //video list
+       let apiurl = "https://shivtik.onrender.com";
        let username;
        let allcommentsid;
        home.addEventListener("click",()=>{
@@ -429,7 +430,7 @@ background-color:white;
         videolist.classList.add("displaynone")
         console.log("button is cclick video list button")
         loading.classList.remove("displaynone")
-           await fetch("https://shivtik.onrender.com/videos",{
+           await fetch(`${apiurl}/videos`,{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -461,7 +462,7 @@ background-color:white;
                 console.log(allcommentsid)
                 loading.classList.remove("displaynone")
                 let div;
-                await fetch("https://shivtik.onrender.com/comment",{
+                await fetch(`${apiurl}/comment`,{
             method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
@@ -497,7 +498,7 @@ background-color:white;
 
          let inputval = input.value;
          username = inputval;
-         await  fetch("https://shivtik.onrender.com/data", {
+         await  fetch(`${apiurl}/data`, {
                   method: "POST",
                   headers: {
                  'Content-Type': 'application/json' // We are sending JSON data
